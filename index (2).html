@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FLUXORA COLLECTIVE — Sample Website</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Hanken+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#18191b;
+    --orange:#ff5f1f;
+    --ink:#18191b;
+    --display:'Anton','Impact','Arial Narrow',sans-serif;
+    --body:'Hanken Grotesk','Helvetica Neue',Arial,sans-serif;
+    --pad:clamp(1.25rem,4vw,3.4rem);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--orange);font-family:var(--body);font-weight:600;text-transform:uppercase;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+
+  /* Header */
+  header{display:flex;justify-content:space-between;align-items:center;padding:1.6rem var(--pad);position:relative;z-index:5}
+  .logo{font-family:var(--display);font-size:1.5rem;letter-spacing:.04em}
+  nav{display:flex;gap:2rem;font-size:.95rem;letter-spacing:.04em}
+  nav a{position:relative}
+  nav a::after{content:"";position:absolute;left:0;bottom:-3px;width:0;height:2px;background:var(--orange);transition:width .3s}
+  nav a:hover::after{width:100%}
+
+  /* Marquee */
+  .marquee{border-top:1px solid var(--orange);border-bottom:1px solid var(--orange);overflow:hidden;white-space:nowrap;padding:1.05rem 0;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+  .track{display:inline-flex;animation:slide 28s linear infinite}
+  .track span{font-size:1.05rem;font-weight:700;padding:0 1.6rem;letter-spacing:.01em}
+  .track span.star{padding:0;font-size:.9rem}
+  @keyframes slide{to{transform:translateX(-50%)}}
+  .marquee.solo{border-bottom:none}
+
+  /* Display headings */
+  .display{font-family:var(--display);font-weight:400;line-height:.98;letter-spacing:.005em}
+  .display em{font-style:italic}
+
+  /* Hero */
+  .hero{padding:clamp(3rem,7vw,6.5rem) var(--pad) 0}
+  .hero h1{font-size:11.6vw;white-space:nowrap}
+  .intro{display:grid;grid-template-columns:1fr 1fr;padding:clamp(3rem,6vw,5.5rem) var(--pad) clamp(3rem,5vw,4.5rem)}
+  .intro .copy{grid-column:2;font-size:clamp(.95rem,1.28vw,1.15rem);line-height:1.32;max-width:36rem}
+  .intro p+p{margin-top:1.1em}
+
+  /* Photos with film grain */
+  .photo{position:relative;overflow:hidden;background:#2a2c2f}
+  .photo img{width:100%;height:100%;object-fit:cover;filter:contrast(1.08) saturate(1.05)}
+  .photo::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.1 -.1'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+  .wide{margin:0 var(--pad);height:min(92vw,760px)}
+  .wide img{object-position:center 30%}
+
+  /* CTA orange */
+  .cta{background:var(--orange);color:var(--ink);text-align:center;padding:clamp(3.5rem,8vw,6.5rem) var(--pad)}
+  .cta p{font-family:var(--display);font-size:clamp(1.6rem,3.2vw,2.8rem);line-height:1.05;margin-bottom:2.2rem;max-width:46rem;margin-inline:auto;text-transform:uppercase}
+  .btn{display:inline-block;border:2px solid currentColor;border-radius:50%/50%;padding:1.15rem 3.2rem;font-size:.95rem;font-weight:600;letter-spacing:.03em;transition:background .3s,color .3s}
+  .cta .btn:hover{background:var(--ink);color:var(--orange);border-color:var(--ink)}
+  .send:hover{background:var(--orange);color:var(--ink)}
+
+  /* Courses */
+  .courses{padding:clamp(3.5rem,6vw,5.5rem) var(--pad) 3rem}
+  .courses h2{font-size:9.4vw;margin-bottom:clamp(2.5rem,6vw,5rem)}
+  .course{margin-bottom:clamp(3rem,6vw,5.5rem)}
+  .course h3{font-size:clamp(1.15rem,1.9vw,1.65rem);font-weight:500;display:flex;gap:2.2rem;margin-bottom:1.6rem}
+  .course h3 b{font-weight:500}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,4vw,3.4rem)}
+  .row .photo{aspect-ratio:563/416}
+  .row .info{font-size:clamp(.95rem,1.28vw,1.15rem);line-height:1.32;max-width:36rem}
+  .info p{margin-bottom:1.05em}
+  .badge-wrap{position:relative}
+  .badge{position:absolute;right:-3.3rem;bottom:2.8rem;width:6.6rem;height:6.6rem;z-index:2;animation:spin 18s linear infinite}
+  .badge svg{position:absolute;inset:0;width:100%;height:100%}
+  .badge span{position:absolute;inset:0;display:grid;place-items:center;color:var(--ink);font-weight:700;font-size:1.02rem;animation:spin 18s linear infinite reverse}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* Testimonial */
+  .quote{background:var(--orange);color:var(--ink);padding:clamp(3rem,6vw,5.5rem) var(--pad) 0;text-align:left}
+  .quote h2{font-size:clamp(2.2rem,6.6vw,6.1rem);line-height:1.02;max-width:90rem}
+  .quote .portrait{width:min(300px,60%);aspect-ratio:3/4;margin:-.4rem auto 0;position:relative;transform:translateY(28%);z-index:2;border:1px solid #fff}
+  .quote-spacer{height:clamp(4rem,12vw,10rem)}
+
+  /* Contact */
+  .contact{padding:clamp(3.5rem,6vw,5.5rem) var(--pad) 4rem;display:grid;grid-template-columns:1.6fr 1fr;gap:3rem;align-items:start}
+  .contact h2{grid-column:1/-1;font-size:clamp(2.6rem,6.8vw,6.2rem);margin-bottom:1.4rem}
+  form{display:grid;gap:1.4rem;max-width:30rem}
+  label,.lbl{display:block;color:#fff;font-weight:600;text-transform:none;font-size:1.05rem;margin-bottom:.35rem}
+  label small{font-size:.8rem;font-weight:500;opacity:.8;margin-left:.3rem}
+  .names{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+  .names label{font-size:.85rem;margin-bottom:.3rem}
+  input,textarea{width:100%;background:transparent;border:1px solid #fff;color:#fff;font:500 1rem var(--body);padding:.8rem;border-radius:0;outline:none;transition:border-color .25s,box-shadow .25s}
+  input:focus,textarea:focus{border-color:var(--orange);box-shadow:0 0 0 1px var(--orange)}
+  input{height:2.7rem}
+  textarea{height:8.5rem;resize:vertical}
+  .send{background:transparent;color:var(--orange);border:2px solid var(--orange);cursor:pointer;font-family:var(--body);justify-self:start}
+  .contact .photo{aspect-ratio:3/4;width:100%}
+
+  footer{padding:2rem var(--pad) 2.4rem;border-top:1px solid var(--orange);display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:.85rem}
+
+  /* Reveal */
+  .rv{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.track,.badge,.badge span{animation:none}}
+
+  @media(max-width:760px){
+    nav{gap:1.1rem;font-size:.8rem}
+    .hero h1{font-size:19vw;white-space:normal}
+    .intro{grid-template-columns:1fr}.intro .copy{grid-column:1}
+    .courses h2{font-size:15vw}
+    .row{grid-template-columns:1fr}
+    .badge{right:-.6rem;bottom:-2rem;width:5.4rem;height:5.4rem}
+    .contact{grid-template-columns:1fr}
+    .course h3{gap:1.2rem}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#top" class="logo">FLUXORA</a>
+  <nav>
+    <a href="#courses">Courses</a>
+    <a href="#stories">Stories</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<div class="marquee" id="top" aria-hidden="true"><div class="track" data-marquee></div></div>
+
+<section class="hero">
+  <h1 class="display rv">GET PAID TO <em>CREATE</em></h1>
+</section>
+
+<section class="intro">
+  <div class="copy rv">
+    <p>It all begins with an idea. Maybe you want to launch a business. Maybe you want to turn a hobby into something more. Or maybe you have a creative project to share with the world. Whatever it is, the way you tell your story online can make all the difference.</p>
+    <p>Don’t worry about sounding professional. Sound like you. There are over 1.5 billion websites out there, but your story is what will separate this one from the rest. If you read this and don’t hear your own voice in your head, that’s a good sign you still have more work to do.</p>
+  </div>
+</section>
+
+<div class="photo wide rv">
+  <img src="https://picsum.photos/id/1027/1800/1200" alt="Sample portrait of a creator against the sky" loading="lazy">
+</div>
+
+<section class="cta" style="margin-top:clamp(3rem,6vw,5rem)">
+  <p class="rv">Ready to turn your ideas into income? Start with a free lesson.</p>
+  <a href="#contact" class="btn rv">LET’S GET TO WORK -></a>
+</section>
+
+<section class="courses" id="courses">
+  <h2 class="display rv">BECOME A CONTENT <em>EXPERT</em></h2>
+
+  <article class="course rv">
+    <h3><b>01</b> <b>VIDEO CONTENT STRATEGY BOOTCAMP</b></h3>
+    <div class="row">
+      <div class="badge-wrap">
+        <div class="photo"><img src="https://picsum.photos/id/338/1100/820" alt="Sample course photo" loading="lazy"></div>
+        <div class="badge"><svg viewBox="0 0 100 100" data-scallop></svg><span>NEW!</span></div>
+      </div>
+      <div class="info">
+        <p>Project: Kickstart your content strategy</p>
+        <p>Lessons: Three 60 minute lessons</p>
+        <p>What we’ll cover: Concepts, video editing, click enhancement</p>
+        <p>It all begins with an idea. Maybe you want to launch a business. Maybe you want to turn a hobby into something more. Or maybe you have a creative project to share with the world. Whatever it is, the way you tell your story online can make all the difference.</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="course rv">
+    <h3><b>02</b> <b>KEEP YOUR AUDIENCE COMING BACK</b></h3>
+    <div class="row">
+      <div class="photo"><img src="https://picsum.photos/id/64/1100/820" alt="Sample course photo" loading="lazy"></div>
+      <div class="info">
+        <p>Project: Build a posting rhythm that lasts</p>
+        <p>Lessons: Four 45 minute lessons</p>
+        <p>What we’ll cover: Series planning, hooks, community replies</p>
+        <p>Great content isn’t a one-time spark. It’s a habit your audience can count on. Learn how to plan, publish and grow without burning out.</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="course rv">
+    <h3><b>03</b> <b>MAKE YOUR BRAND IMPOSSIBLE TO IGNORE</b></h3>
+    <div class="row">
+      <div class="photo"><img src="https://picsum.photos/id/1011/1100/820" alt="Sample course photo" loading="lazy"></div>
+      <div class="info">
+        <p>Project: Craft your signature look and voice</p>
+        <p>Lessons: Five 30 minute lessons</p>
+        <p>What we’ll cover: Colour, type, storytelling, sponsorship pitches</p>
+        <p>Stand out with a style that feels unmistakably yours. This sample course walks through turning attention into paid work.</p>
+      </div>
+    </div>
+  </article>
+</section>
+
+<div class="marquee solo" aria-hidden="true"><div class="track" data-marquee></div></div>
+
+<section class="quote" id="stories">
+  <h2 class="display rv">THE COURSE I TOOK WITH ALEX LED TO A 30% INCREASE IN MY SUBS. CAN’T WAIT TO COME BACK FOR MORE.</h2>
+  <div class="photo portrait rv"><img src="https://picsum.photos/id/1005/600/800" alt="Sample student portrait" loading="lazy"></div>
+</section>
+<div class="quote-spacer" style="background:var(--bg)"></div>
+
+<div class="marquee" aria-hidden="true"><div class="track" data-marquee></div></div>
+
+<section class="contact" id="contact">
+  <h2 class="display rv">STILL HAVE QUESTIONS? <em>LET’S CHAT.</em></h2>
+  <form class="rv" onsubmit="event.preventDefault();this.querySelector('.send').textContent='THANKS — SAMPLE ONLY'">
+    <div>
+      <span class="lbl">Name</span>
+      <div class="names">
+        <div><label for="fn">First Name <small>(required)</small></label><input id="fn" required></div>
+        <div><label for="ln">Last Name <small>(required)</small></label><input id="ln" required></div>
+      </div>
+    </div>
+    <div><label for="em">Email <small>(required)</small></label><input id="em" type="email" required></div>
+    <div><label for="su">Subject <small>(required)</small></label><input id="su" required></div>
+    <div><label for="ms">Message <small>(required)</small></label><textarea id="ms" required></textarea></div>
+    <button class="btn send" type="submit">SEND -></button>
+  </form>
+  <div class="photo rv"><img src="https://picsum.photos/id/1025/700/930" alt="Sample contact photo" loading="lazy"></div>
+</section>
+
+<footer>
+  <span>© 2026 Fluxora Collective</span>
+  <span>Sample website · all content is placeholder</span>
+</footer>
+
+<script>
+  // marquee content (two identical halves for a seamless loop)
+  const unit = '<span>IT ALL BEGINS WITH AN IDEA</span><span class="star">✦</span>';
+  document.querySelectorAll('[data-marquee]').forEach(t => t.innerHTML = unit.repeat(14));
+
+  // scalloped "NEW!" badge
+  document.querySelectorAll('[data-scallop]').forEach(svg => {
+    const n = 22, pts = [];
+    for (let i = 0; i < n * 2; i++) {
+      const a = (Math.PI * 2 * i) / (n * 2), r = i % 2 ? 44 : 50;
+      pts.push((50 + r * Math.cos(a)).toFixed(2) + ',' + (50 + r * Math.sin(a)).toFixed(2));
+    }
+    svg.innerHTML = '<polygon fill="#ff5f1f" points="' + pts.join(' ') + '"/>';
+  });
+
+  // scroll reveal
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: .12 });
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
